@@ -1,10 +1,19 @@
 import os
 import time
 import requests
+from dotenv import load_dotenv
+from pathlib import Path
 
+BASE_DIR = Path(__file__).resolve().parent.parent
 
-# Obtém a chave da API guardada na variável de ambiente
+# Carregar variáveis de ambiente do ficheiro
+load_dotenv(BASE_DIR / ".env")
+
+# Obter a chave API
 API_KEY = os.getenv("GEMINI_API_KEY")
+
+if not API_KEY:
+    raise ValueError("GEMINI_API_KEY não encontrada no ficheiro .env")
 
 # URL da API do Gemini
 API_URL = (
