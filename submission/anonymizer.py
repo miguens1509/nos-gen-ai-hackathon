@@ -1,4 +1,5 @@
 import os
+import time
 import requests
 
 
@@ -8,24 +9,28 @@ API_KEY = os.getenv("GEMINI_API_KEY")
 # URL da API do Gemini
 API_URL = (
     "https://generativelanguage.googleapis.com/v1beta/"
-    f"models/gemini-3.8-flash:generateContent?key={API_KEY}"
+    "models/gemini-3.8-flash:generateContent"
 )
 
 
-def generate_content(prompt_text: str, temperature: float) -> dict:
+def generate_content(prompt_text: str) -> dict:
     """
     Gera conteúdo através da API do Gemini.
 
     Args:
         prompt_text (str): Texto enviado ao Gemini.
-        temperature (float): Controla a aleatoriedade da resposta.
 
     Returns:
         dict: Resposta da API em formato JSON.
     """
 
+    # Confirma que existe uma chave de API
+    if not API_KEY:
+        raise ValueError("A variável GEMINI_API_KEY não está definida.")
+
     headers = {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
+        "x-goog-api-key": API_KEY
     }
 
     body = {
@@ -37,47 +42,95 @@ def generate_content(prompt_text: str, temperature: float) -> dict:
             }
         ],
         "generationConfig": {
-            "temperature": temperature
+
+            # Reduz o raciocínio interno para acelerar a resposta
+            "thinkingConfig": {
+                "thinkingLevel": "low"
+            }
         }
     }
 
-    # Envia o pedido para o Gemini
-    response = requests.post(API_URL, headers=headers, json=body)
+    # Envia o pedido para a API do Gemini
+    response = requests.post(
+        API_URL,
+        headers=headers,
+        json=body
+    )
 
-    # Devolve a resposta completa em formato JSON
+    # Verifica se a API devolveu algum erro HTTP
+    if not response.ok:
+        raise RuntimeError(
+            f"Erro da API Gemini ({response.status_code}): "
+            f"{response.text}"
+        )
+
+    # Devolve a resposta em formato JSON
     return response.json()
 
 
 def anonymize(text: str) -> str:
     """
-    Envia um documento para o Gemini para ser anonimizado.
+    Envia o texto de um documento para o Gemini e
+    devolve a versão anonimizada.
     """
 
     # Lê as instruções de anonimização
-    with open("submission/prompt.txt", "r", encoding="utf-8") as file:
+    with open(
+        "submission/prompt.txt",
+        "r",
+        encoding="utf-8"
+    ) as file:
         prompt = file.read()
 
-    # Junta as instruções ao documento que queremos anonimizar
+    # Junta as instruções ao documento original
     prompt_text = f"{prompt}\n\nDocument:\n{text}"
 
-    # Chama a função baseada diretamente no tutorial
-    output = generate_content(prompt_text, 0.0)
+    # Envia o documento para o Gemini
+    output = generate_content(prompt_text)
 
-    # Obtém apenas o texto da resposta do Gemini,
-    # exatamente como é feito no tutorial
-    response_text = output["candidates"][0]["content"]["parts"][0]["text"]
+    # Verifica se o Gemini devolveu conteúdo
+    if "candidates" not in output:
+        raise RuntimeError(
+            f"O Gemini não devolveu texto: {output}"
+        )
+
+    # Extrai apenas o texto gerado pelo Gemini
+    response_text = (
+        output["candidates"][0]["content"]["parts"][0]["text"]
+    )
 
     return response_text
 
-# Teste com o documento real
+
+# Executa a anonimização do documento real
 if __name__ == "__main__":
 
     # Lê o texto extraído do PDF
-    with open("raw_data/document_to_anonymize.txt", "r", encoding="utf-8") as file:
+    with open(
+        "raw_data/document_to_anonymize.txt",
+        "r",
+        encoding="utf-8"
+    ) as file:
         texto_documento = file.read()
 
-    # Envia todo o documento para o Gemini
+    print("A iniciar anonimização...")
+
+    # Regista o instante inicial
+    inicio = time.perf_counter()
+
+    # Envia o documento para o Gemini
     resultado = anonymize(texto_documento)
 
-    # Mostra o documento anonimizado no terminal
-    print(resultado)
+    # Calcula o tempo de processamento
+    fim = time.perf_counter()
+
+    # Guarda a resposta do Gemini no ficheiro de submissão
+    with open(
+        "submission/submission.txt",
+        "w",
+        encoding="utf-8"
+    ) as file:
+        file.write(resultado)
+
+    print("Documento anonimizado com sucesso!")
+    print(f"Tempo de processamento: {fim - inicio:.2f} segundos")
