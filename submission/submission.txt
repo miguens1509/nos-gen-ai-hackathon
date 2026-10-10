@@ -1,4 +1,4 @@
-Relatório de Admissão - Centro Médico Lisboa 
+* * * - * * Lisboa 
 Data: 15 de abril de 2025 
 Referência: * 
 Informações do Paciente: 
@@ -57,4 +57,4 @@ Dr. * *
 CRM: * 
 Especialidade: Medicina Interna 
 Email: * 
-Telefone: *
+Telefone: * 
