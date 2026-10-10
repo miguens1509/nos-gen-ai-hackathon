@@ -69,3 +69,15 @@ def anonymize(text: str) -> str:
 
     return response_text
 
+# Teste com o documento real
+if __name__ == "__main__":
+
+    # Lê o texto extraído do PDF
+    with open("raw_data/document_to_anonymize.txt", "r", encoding="utf-8") as file:
+        texto_documento = file.read()
+
+    # Envia todo o documento para o Gemini
+    resultado = anonymize(texto_documento)
+
+    # Mostra o documento anonimizado no terminal
+    print(resultado)
