@@ -18,7 +18,7 @@ def extract_text_from_pdf(path: str) -> str:
     return text
 
 
-path_to_pdf = "nos-gen-ai-hackathon/raw_data/document_to_anonymize.pdf"
+path_to_pdf = "../nos-gen-ai-hackathon/raw_data/document_to_anonymize.pdf"
 extracted_text = extract_text_from_pdf(path_to_pdf)
 print(extracted_text)
 
