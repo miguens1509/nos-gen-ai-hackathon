@@ -1,5 +1,0 @@
-Removed:
-*Relatório* de Admissão - Centro Médico Lisboa 
-Relatório *de* Admissão - Centro Médico Lisboa 
-
-Added:

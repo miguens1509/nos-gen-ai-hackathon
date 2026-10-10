@@ -3,7 +3,10 @@ import time
 import requests
 from dotenv import load_dotenv
 from pathlib import Path
-
+import tkinter as tk
+from Interface import ReviewApp
+from pdf_to_text import *
+from Interface import *
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # Carregar variáveis de ambiente do ficheiro
@@ -113,6 +116,15 @@ def anonymize(text: str) -> str:
 
 # Executa a anonimização do documento real
 if __name__ == "__main__":
+    path_to_pdf = "../nos-gen-ai-hackathon/raw_data/document_to_anonymize.pdf"
+    extracted_text = extract_text_from_pdf(path_to_pdf)
+    print(extracted_text)
+
+    txt_path = path_to_pdf.replace(".pdf", ".txt")
+    with open(txt_path, "w", encoding="utf-8") as f:
+        f.write(extracted_text)
+
+    print(f"✅ Text extracted and saved to: {txt_path}")
 
     # Lê o texto extraído do PDF
     with open(
@@ -141,5 +153,11 @@ if __name__ == "__main__":
     ) as file:
         file.write(resultado)
 
+
     print("Documento anonimizado com sucesso!")
     print(f"Tempo de processamento: {fim - inicio:.2f} segundos")
+
+    root = tk.Tk()
+    ReviewApp(root)
+    root.mainloop()
+    
