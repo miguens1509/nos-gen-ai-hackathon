@@ -1,4 +1,3 @@
-
 import difflib
 import re
 from pathlib import Path
@@ -50,16 +49,22 @@ def comparar_documentos(original, anonimizado):
 
                 print(f"\nLinha {i1 + 1}:")
                 print(contexto)
-
+                f = open("submission/comparison_results.txt", "a", encoding="utf-8")
                 while True:
                     resposta = input(
                         "Anonimização correta? (y/n): "
                     ).strip().lower()
+                    if resposta == "y":
+                        break
 
-                    if resposta in ("y", "n"):
+                    elif resposta == "n":
+
+                        f.write(f"Linha {i1 + 1}: {contexto}\n")
+                        
                         break
 
                     print("Introduz apenas y ou n.")
+                f.close()
 
 
 if __name__ == "__main__":

@@ -1,0 +1,50 @@
+Linha 59: Telefone: *+351213456789 *
+Linha 3: Referência: *ADM-2025-04-15-089* 
+Linha 5: Nome: *Maria* Conceição Oliveira Santos 
+Linha 5: Nome: Maria *Conceição* Oliveira Santos 
+Linha 5: Nome: Maria Conceição *Oliveira* Santos 
+Linha 5: Nome: Maria Conceição Oliveira *Santos* 
+Linha 5: Data de Nascimento: *12/03/1978* 
+Linha 8: NIF: *097865413* 
+Linha 8: Cartão de Cidadão: *12345678-9ZX0* 
+Linha 8: Morada: *Rua* das Flores, 123, Apt 45, Sacavém, Lisboa 
+Linha 8: Morada: Rua *das* Flores, 123, Apt 45, Sacavém, Lisboa 
+Linha 8: Morada: Rua das *Flores,* 123, Apt 45, Sacavém, Lisboa 
+Linha 8: Morada: Rua das Flores, *123,* Apt 45, Sacavém, Lisboa 
+Linha 8: Morada: Rua das Flores, 123, *Apt* 45, Sacavém, Lisboa 
+Linha 8: Morada: Rua das Flores, 123, Apt *45,* Sacavém, Lisboa 
+Linha 8: Morada: Rua das Flores, 123, Apt 45, *Sacavém,* Lisboa 
+Linha 8: Morada: Rua das Flores, 123, Apt 45, Sacavém, *Lisboa* 
+Linha 8: Telefone: *+351* 912 345 678 
+Linha 8: Telefone: +351 *912* 345 678 
+Linha 8: Telefone: +351 912 *345* 678 
+Linha 8: Telefone: +351 912 345 *678* 
+Linha 8: Email: *maria.santos@emailpessoal.pt* 
+Linha 8: Número da Segurança Social: *11223344556* 
+Linha 15: A paciente *Maria* Santos, mulher caucasiana de 47 anos, compareceu à consulta relatando dores 
+Linha 15: A paciente Maria *Santos,* mulher caucasiana de 47 anos, compareceu à consulta relatando dores 
+Linha 15: A paciente Maria Santos, mulher caucasiana de *47* anos, compareceu à consulta relatando dores 
+Linha 24: Filhos: 2 *(João,* 15 anos e Ana, 12 anos) 
+Linha 24: Filhos: 2 (João, 15 anos e *Ana,* 12 anos) 
+Linha 30: Seguro de saúde: Plano Premium Saúde Total, apólice nº *987654321* 
+Linha 30: Número do cartão de crédito: *4111* 2222 3333 4444 (validade 09/27, CVV 123) 
+Linha 30: Número do cartão de crédito: 4111 *2222* 3333 4444 (validade 09/27, CVV 123) 
+Linha 30: Número do cartão de crédito: 4111 2222 *3333* 4444 (validade 09/27, CVV 123) 
+Linha 30: Número do cartão de crédito: 4111 2222 3333 *4444* (validade 09/27, CVV 123) 
+Linha 30: Número do cartão de crédito: 4111 2222 3333 4444 (validade *09/27,* CVV 123) 
+Linha 30: Número do cartão de crédito: 4111 2222 3333 4444 (validade 09/27, CVV *123)* 
+Linha 30: Rendimento anual declarado: *€62.500* 
+Linha 34: Impressão digital registrada no sistema: *ID-BIO-12345* 
+Linha 34: Reconhecimento facial: *FACE-ID-78901* 
+Linha 50: Nome: *António* Santos (irmão) 
+Linha 50: Nome: António *Santos* (irmão) 
+Linha 50: Telefone: *+351961234567* 
+Linha 50: Email: *antonio.santos@emailpessoal.pt* 
+Linha 50: Nome: *Joana* Pereira (amiga próxima) 
+Linha 50: Nome: Joana *Pereira* (amiga próxima) 
+Linha 50: Telefone: *+351939876543* 
+Linha 56: Dr. *Carlos* Mendes 
+Linha 56: Dr. Carlos *Mendes* 
+Linha 56: CRM: *12345-PT* 
+Linha 59: Email: *carlos.mendes@centromedicalisboa.pt* 
+Linha 59: Telefone: *+351213456789 *
