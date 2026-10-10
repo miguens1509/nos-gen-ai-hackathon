@@ -7,7 +7,7 @@ from pathlib import Path
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # Carregar variáveis de ambiente do ficheiro
-load_dotenv(BASE_DIR / "api_key.env")
+load_dotenv(BASE_DIR / ".env")
 
 # Obter a chave API
 API_KEY = os.getenv("GEMINI_API_KEY")
