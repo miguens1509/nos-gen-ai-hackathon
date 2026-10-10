@@ -4,18 +4,22 @@ Your task is to identify and mask sensitive or personal data in the provided doc
 
 Follow these rules strictly:
 
-1. Detect sensitive or personal data using both recognizable patterns and the context in which the information appears.
+1. Detect sensitive or personal data using both recognizable patterns and the context in which the information appears. Prioritize information that directly identifies an individual or could reasonably enable their identification.
 
-2. Replace every anonymized word with exactly one *.
+2. Do not anonymize non-identifying demographic or contextual information, such as age, gender, or general descriptions, unless it is itself identifying or its combination with other information creates a meaningful identification risk.
 
-3. If sensitive information contains multiple words, replace each individual word with one *.
+3. Age alone is not considered identifying information. Preserve ages, even when referring to a patient or another individual, unless the age is part of a uniquely identifying combination of details. For example, "A paciente tem 45 anos" must remain unchanged.
+
+4. Replace every anonymized word with exactly one *.
+
+5. If sensitive information contains multiple words, replace each individual word with one *.
 Example:
 Ana Correia -> * *
 
-4. Preserve all non-sensitive information exactly as it appears in the original document.
+6. Preserve all non-sensitive information exactly as it appears in the original document.
 
-5. Preserve the original meaning and formatting of the document.
+7. Preserve the original meaning and formatting of the document.
 
-6. Remove empty lines.
+8. Remove empty lines.
 
-7. Return only the anonymized document. Do not add explanations, comments, markdown, introductions, or conclusions.
+9. Return only the anonymized document. Do not add explanations, comments, markdown, introductions, or conclusions.
