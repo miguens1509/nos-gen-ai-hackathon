@@ -69,6 +69,7 @@ class ReviewApp:
         self.original = ""
         self.spans = []
         self.masked = set()
+        self.initial_masked = set()
         self.issues = []
         self.mouse_start = None
 
@@ -105,6 +106,60 @@ class ReviewApp:
         if path:
             self.open_original(Path(path))
 
+    
+    def save_comparison_results(self):
+        # Censuras removidas manualmente pelo utilizador
+        removed = self.initial_masked - self.masked
+
+        # Censuras adicionadas manualmente pelo utilizador
+        added = self.masked - self.initial_masked
+
+        def get_context(span):
+            start, end = span
+
+            # Encontrar o início da linha original
+            line_start = self.original.rfind("\n", 0, start) + 1
+
+            # Encontrar o fim da linha original
+            line_end = self.original.find("\n", end)
+
+            if line_end == -1:
+                line_end = len(self.original)
+
+            # Reconstruir a linha com a palavra assinalada
+            return (
+                self.original[line_start:start]
+                + "*"
+                + self.original[start:end]
+                + "*"
+                + self.original[end:line_end]
+            )
+
+        # Criar o conteúdo do ficheiro
+        lines = ["Removed:"]
+
+        for span in sorted(removed):
+            lines.append(get_context(span))
+
+        lines.append("")
+        lines.append("Added:")
+
+        for span in sorted(added):
+            lines.append(get_context(span))
+
+        # Caminho do ficheiro de resultados
+        path = ROOT / "submission" / "comparisions_results.txt"
+
+        # Criar a pasta, caso não exista
+        path.parent.mkdir(parents=True, exist_ok=True)
+
+        # Criar ou substituir o ficheiro
+        path.write_text(
+            "\n".join(lines) + "\n",
+            encoding="utf-8"
+        )
+
+
     def open_original(self, path):
         self.original = path.read_text(encoding="utf-8-sig")
         self.spans = [(start, end) for line in tokens_by_line(self.original)
@@ -128,6 +183,10 @@ class ReviewApp:
     def open_proposal(self, path):
         candidate = path.read_text(encoding="utf-8-sig")
         self.masked, self.issues = proposed_masks(self.original, candidate)
+
+        # Guardar as censuras originais do Gemini
+        self.initial_masked = self.masked.copy()
+
         self.refresh()
         self.status.configure(text=f"Proposta: {path.name} | {len(self.masked)} palavras marcadas | "
                              f"{len(self.issues)} avisos de alinhamento")
@@ -226,8 +285,18 @@ class ReviewApp:
             return
         # Fechar a interface assim que o ficheiro for guardado com sucesso.
         # Sem janela ou notificacao de confirmacao.
-        self.root.destroy()
+        # Guardar as alterações manuais
+        try:
+            self.save_comparison_results()
+        except OSError as exc:
+            messagebox.showerror(
+                "Erro ao guardar comparações",
+                str(exc)
+            )
+            return
 
+        # Fechar a interface
+        self.root.destroy()
 
 if __name__ == "__main__":
     root = tk.Tk()
