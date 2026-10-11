@@ -172,7 +172,6 @@ class ReviewApp:
             text="Abre o documento original para começar.",
             padding=10
         )
-
         self.status.pack(anchor="w")
 
         if DEFAULT_ORIGINAL.exists():
