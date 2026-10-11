@@ -1,0 +1,10 @@
+Wrongly censored:
+Relatório de Admissão - *Centro* Médico Lisboa 
+Relatório de Admissão - Centro *Médico* Lisboa 
+Relatório de Admissão - Centro Médico *Lisboa* 
+Morada: Rua das Flores, 123, Apt 45, Sacavém, *Lisboa* 
+A paciente Maria Santos, mulher caucasiana de *47* anos, compareceu à consulta relatando dores 
+
+Should have been censored:
+
+Knowing these mistakes, modify the prompt accordingly, keeping previous instructions and examples that were right.

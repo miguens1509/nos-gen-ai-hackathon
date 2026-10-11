@@ -1,5 +1,5 @@
 Relatório de Admissão - Centro Médico Lisboa 
-Data: 15 de abril de 2025 
+Data: * de * de * 
 Referência: * 
 Informações do Paciente: 
 Nome: * * * * 
@@ -7,12 +7,12 @@ Data de Nascimento: *
 Sexo: Feminino 
 NIF: * 
 Cartão de Cidadão: * 
-Morada: * * *, *, * *, *, * 
+Morada: * * *, *, * *, *, Lisboa 
 Telefone: * * * * 
 Email: * 
 Número da Segurança Social: * 
 Histórico Médico: 
-A paciente * *, mulher caucasiana de * anos, compareceu à consulta relatando dores 
+A paciente * *, mulher caucasiana de 47 anos, compareceu à consulta relatando dores 
 abdominais intensas. Tem histórico de hipertensão e diabetes tipo 2, diagnosticada há 5 anos. É 
 HIV positivo desde 2018, atualmente com carga viral indetectável graças ao tratamento com 
 antirretrovirais. 
@@ -23,11 +23,11 @@ Informações Sociais e Comportamentais:
 Estado civil: Divorciada 
 Filhos: 2 (*, 15 anos e *, 12 anos) 
 Religião: Católica praticante 
-Ocupação: Professora universitária na Faculdade de Direito de Lisboa 
+Ocupação: * * * * * * * * 
 Hábitos: Ex-fumante (parou há 3 anos), consome álcool socialmente (2-3 doses por semana) 
 Histórico de uso de substâncias: Tratamento para dependência de ansiolíticos em 2019 
 Informações Financeiras: 
-Seguro de saúde: Plano Premium Saúde Total, apólice nº * 
+Seguro de saúde: * * * *, apólice nº * 
 Número do cartão de crédito: * * * * (validade *, CVV *) 
 Rendimento anual declarado: * 
 Dados Biométricos: 
