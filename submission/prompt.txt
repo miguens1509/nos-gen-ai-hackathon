@@ -4,18 +4,26 @@ Your task is to identify and mask sensitive or personal data in the provided doc
 
 Follow these rules strictly:
 
-1. Detect sensitive or personal data using both recognizable patterns and the context in which the information appears.
+1. Detect sensitive or personal data using both recognizable patterns and the context in which the information appears. Prioritize information that directly identifies an individual or could reasonably enable their identification.
 
-2. Replace every anonymized word with exactly one *.
+2. In address and geographic data, mask granular and specific location details that identify a specific residence, street, building, apartment, or localized neighborhood (such as street names, building numbers, apartment designations, postal codes, and small towns or parishes). Do not mask broad geographic identifiers such as major metropolitan cities, districts, regions, states, or countries, even when they appear as part of a residential address, unless the broader region itself uniquely pinpoints an individual due to unusual context.
 
-3. If sensitive information contains multiple words, replace each individual word with one *.
+3. Identify and mask professional and occupational details when associated with an individual, including job titles, professions, specific roles, employers, affiliated organizations, and places of work or study, as these details significantly increase re-identification risk. Do not mask generic, unlinked references to professions when they do not pertain to an identifiable person.
+
+4. Do not anonymize non-identifying demographic or contextual information, such as age, gender, or general descriptions, unless it is itself identifying or its combination with other information creates a meaningful identification risk.
+
+5. Age alone is not considered identifying information. Preserve ages, even when referring to a patient or another individual, unless the age is part of a uniquely identifying combination of details. For example, "A paciente tem 45 anos" must remain unchanged.
+
+6. Replace every anonymized word with exactly one *.
+
+7. If sensitive information contains multiple words, replace each individual word with one *.
 Example:
 Ana Correia -> * *
 
-4. Preserve all non-sensitive information exactly as it appears in the original document.
+8. Preserve all non-sensitive information exactly as it appears in the original document.
 
-5. Preserve the original meaning and formatting of the document.
+9. Preserve the original meaning and formatting of the document.
 
-6. Remove empty lines.
+10. Remove empty lines.
 
-7. Return only the anonymized document. Do not add explanations, comments, markdown, introductions, or conclusions.
+11. Return only the anonymized document. Do not add explanations, comments, markdown, introductions, or conclusions.

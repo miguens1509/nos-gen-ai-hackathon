@@ -1,55 +1,106 @@
-# NOS Gen-AI Hackathon
+﻿# NOS Gen-AI Hackathon — Anonimização de documentos
 
-Welcome to the official repository for the NOS Gen-AI Hackathon, part of the SCAILE initiative! In this repository, you will find essential resources including the official hackathon rules, code snippets, and examples designed to facilitate your development process. Additionally, we provide a baseline structure to guide you in addressing the proposed challenge effectively.
+Solução de anonimização de documentos com a API Gemini e revisão humana através de uma interface gráfica em Tkinter. O sistema substitui palavras sensíveis por `*` e utiliza as correções do revisor para melhorar as instruções de anonimização.
 
-## 0. Problem Statement and Evaluation Criteria
+## Como funciona
 
-For a complete description of the problem statement and the detailed evaluation criteria, refer to this [document](tutorials/problem_and_eval.md).
+1. Extrai o texto de `raw_data/document_to_anonymize.pdf` e guarda-o em `raw_data/document_to_anonymize.txt`.
+2. Envia o texto e as instruções de `submission/prompt.txt` ao Gemini.
+3. Guarda a proposta em `submission/submission.txt` e abre a interface de revisão.
+4. O utilizador adiciona ou remove máscaras e clica em **Guardar**. A interface guarda o documento revisto e as correções manuais.
+5. Se existirem correções, uma segunda chamada envia o prompt atual, o documento original e o feedback ao Gemini. Esta chamada pede regras lógicas gerais que previnam os erros, sem acrescentar exemplos específicos, e atualiza `submission/prompt.txt`.
 
-The document to be anonymized is located at [`raw_data/document_to_anonymize.pdf`](raw_data/document_to_anonymize.pdf).
+O prompt atualizado é usado na execução seguinte. A segunda chamada não volta a anonimizar o documento da execução atual.
 
-## 1. Prerequisites
-Before participating in the hackathon, please ensure that you meet the following prerequisites. Having the needed accounts and accesses will help streamline your development process and facilitate the use of necessary tools and APIs.
+## Requisitos
 
-### 1.1. GitHub Account
+- Python 3 com Tkinter disponível.
+- Ligação à Internet e uma chave da API Gemini com acesso ao modelo configurado em `submission/anonymizer.py`.
+- Um PDF com texto extraível; o fluxo atual não inclui OCR para documentos digitalizados.
 
-Make sure you have an active GitHub account at [Create a GitHub Account](https://github.com/signup)
+## Instalação
 
-### 1.2. Google Account
+Abre um terminal na raiz deste repositório, a pasta `nos-gen-ai-hackathon`.
 
-You'll need an active Google account to access Google AI tools at [Create a Google Account](https://accounts.google.com/signup)
+Em Windows / PowerShell:
 
-### 1.3. Set Up Your Google API Key
+```powershell
+py -m venv .venv
+.\.venv\Scripts\python.exe -m pip install requests python-dotenv PyMuPDF
+```
 
-To generate your API key:
+Cria um ficheiro `.env` na raiz do repositório:
 
-a. Go to [Google AI Studio](https://aistudio.google.com/) and log in with your Google account.  
-b. Click on the **“Get API Key”** button.  
-c. Select **“Create API key”** (or **“Criar chave de API”** if in Portuguese).  
-d. A window will open where you’ll create an API key under a new project.  
-e. **Important:** Save the generated API key in a safe place — you'll need it later!
+```dotenv
+GEMINI_API_KEY=a_tua_chave
+```
 
-## 2. Setup
-In this section, we'll walk you through the essential setup steps needed to get started with your project. Follow these instructions carefully!
+Podes obter uma chave no [Google AI Studio](https://aistudio.google.com/). Não publiques a chave nem o ficheiro `.env`. Se `GEMINI_API_KEY` já estiver definida no ambiente, essa variável tem prioridade sobre o valor no ficheiro.
 
-### 2.1. Git tutorial
+## Execução
 
-If you're new to Git, it’s important to understand how to manage your code effectively. To help you get started, we have provided a Git tutorial at [Git Tutorial](tutorials/git_tutorial.md). This tutorial will guide you through the fundamental concepts and commands you'll need to commit your changes and collaborate with your team.
+Coloca o PDF em `raw_data/document_to_anonymize.pdf` e verifica as instruções em `submission/prompt.txt`.
 
-## 3. Utils
+A partir da raiz do repositório:
 
-This section contains helpful resources and tools to support your work.
+```powershell
+.\.venv\Scripts\python.exe submission/anonymizer.py
+```
 
-### 3.1. Getting Started with Gemini API
+É necessário executar a partir desta pasta porque a função `anonymize` lê `submission/prompt.txt` através de um caminho relativo.
 
-If you're looking for **detailed steps**, including how to obtain an API key and example usage, please refer to the full tutorial at [Gemini 2.0 Tutorial](tutorials/gemini_tutorial.md)
+### Revisão manual
 
-### 3.2. Document Conversion Methods
+- As palavras marcadas a vermelho serão substituídas por `*`.
+- Clica numa palavra para adicionar ou remover a máscara.
+- Arrasta o rato para marcar ou desmarcar várias palavras.
+- Clica em **Guardar** para exportar o resultado, registar as correções e fechar a janela.
 
-Converting PDF documents to text can be essential for leveraging existing content in your project. There are methods and tools available for this conversion, which you can explore in detail in the [PDF to Text Guide](tutorials/pdf__to__txt.ipynb).
+A interface preserva a pontuação exterior das palavras mascaradas e remove linhas vazias na exportação. Se apresentar avisos de alinhamento entre o original e a proposta, revê essas linhas manualmente.
 
+O ficheiro de correções é esvaziado antes de cada revisão. Fechar a janela sem guardar não exporta as alterações manuais nem desencadeia a melhoria do prompt; a proposta inicial permanece em `submission.txt`.
 
-## 4. Submission Guidelines
+Para abrir apenas a interface, usando os ficheiros existentes:
 
-In this section, we will outline the expectations for project submission. Understanding these guidelines is crucial to ensure your work is evaluated correctly. There are specific methods and criteria for submission, which you should follow closely to enhance your chances of success. Make sure to read through the following points carefully.
-For more detailed information on the submission process and what is expected, please refer to the [Submission Process Guide](submission/README.md).
+```powershell
+.\.venv\Scripts\python.exe submission/Interface.py
+```
+
+Este comando não chama a API nem atualiza automaticamente o prompt.
+
+## Ficheiros principais
+
+| Ficheiro | Função |
+| --- | --- |
+| `submission/anonymizer.py` | Extração, chamadas à API, revisão e melhoria do prompt. |
+| `submission/Interface.py` | Interface gráfica para rever as máscaras e guardar correções. |
+| `submission/prompt.txt` | Instruções de anonimização, atualizadas após uma revisão com correções. |
+| `submission/submission.txt` | Proposta do Gemini ou resultado final após guardar a revisão. |
+| `submission/comparisions_results.txt` | Feedback manual: informação indevidamente mascarada e informação que deveria ter sido mascarada. |
+| `raw_data/document_to_anonymize.pdf` | Documento de entrada. |
+| `raw_data/document_to_anonymize.txt` | Texto original extraído do PDF. |
+| `submission/pdf_to_text.py` | Utilitário separado de extração; não é necessário executá-lo no fluxo principal. |
+
+## Resolução de problemas
+
+- **Chave não definida:** verifica `GEMINI_API_KEY` no `.env` ou no ambiente.
+- **Prompt não encontrado:** executa o comando na raiz do repositório.
+- **PDF não encontrado:** confirma o nome e a localização do ficheiro de entrada.
+- **Tempo de espera excedido:** a chamada configura 10 segundos para ligação e 60 segundos de espera de leitura. Um timeout não confirma que a chave seja inválida; verifica a ligação e tenta novamente.
+- **Erro HTTP da API:** consulta o código e a mensagem apresentados no terminal para identificar problemas de acesso, quota ou modelo.
+- **Tkinter indisponível:** usa uma instalação de Python que inclua suporte para Tkinter e um ambiente com interface gráfica.
+
+O documento original é enviado ao Gemini na primeira chamada e, quando existem correções, também na segunda. O texto original e o feedback são guardados localmente.
+
+## Submissão no hackathon
+
+Consulta as [regras de submissão](submission/README.md) e os [critérios de avaliação](tutorials/problem_and_eval.md).
+
+As regras pedem o resultado em `submission/submission.txt`, o prompt exato usado para o gerar em `submission/prompt.txt` e o código desenvolvido. Como a melhoria automática substitui o prompt depois de gerar o resultado, conserva uma cópia do prompt usado na execução final e confirma a correspondência antes de submeter. O resultado guardado pela interface pode incluir correções humanas; verifica também a sua compatibilidade com as regras de submissão.
+
+## Recursos
+
+- [Tutorial de Git](tutorials/git_tutorial.md)
+- [Tutorial de Gemini](tutorials/gemini_tutorial.md)
+- [Conversão de PDF para texto](tutorials/pdf__to__txt.ipynb)
+- [Licença](LICENSE)
