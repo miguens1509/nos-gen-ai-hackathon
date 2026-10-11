@@ -1,4 +1,4 @@
-﻿"""Anonymize a PDF and improve the prompt using saved review corrections."""
+"""Anonymize a PDF and improve the prompt using saved review corrections."""
 import os
 import time
 from pathlib import Path
@@ -54,8 +54,24 @@ def response_text(output: dict) -> str:
 
 
 def anonymize(text: str) -> str:
-    prompt = PROMPT_PATH.read_text(encoding="utf-8")
-    return response_text(generate_content(f"{prompt}\n\nDocument:\n{text}"))
+    """Send a document to Gemini and return its anonymized version."""
+    with open(
+        "submission/prompt.txt",
+        "r",
+        encoding="utf-8"
+    ) as file:
+        prompt = file.read()
+
+    prompt_text = f"{prompt}\n\nDocument:\n{text}"
+    output = generate_content(prompt_text)
+
+    if "candidates" not in output:
+        raise RuntimeError(f"O Gemini nao devolveu texto: {output}")
+
+    response_text = (
+        output["candidates"][0]["content"]["parts"][0]["text"]
+    )
+    return response_text
 
 
 def improve_prompt() -> None:
